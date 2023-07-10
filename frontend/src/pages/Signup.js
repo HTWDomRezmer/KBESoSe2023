@@ -1,10 +1,10 @@
 //styled components
-
+import React from "react";
 import {
-  StyledTextInput,
+  //StyledTextInput,
   StyledFormArea,
   StyledFormButton,
-  StyledLabel,
+  //StyledLabel,
   Avatar,
   StyledTitle,
   colors,
@@ -25,6 +25,25 @@ import * as Yup from "yup";
 import { FiMail, FiLock, FiUser, FiCalendar } from "react-icons/fi";
 
 const Signup = () => {
+  const initialValues = {
+    email: "",
+    password: "",
+    repeatPassword: "",
+    dateOfBirth: "",
+    name: "",
+  };
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email adress").required("Required"),
+    name: Yup.string().required("Required"),
+    password: Yup.string().min(8, "Password is too short").max(30, "Password  is too long").required("Required"),
+    //repeatPassword: Yup.string().oneOf([Yup.ref("password"), ""], "Password must match").required("Required"),
+  })
+
+  const onSubmit = values => {
+    console.log("Form data", values);
+  }
+
   return (
     <div>
       <StyledFormArea>
@@ -32,34 +51,9 @@ const Signup = () => {
         <StyledTitle color={colors.theme} size={30}>
           Member Signup
         </StyledTitle>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-            repeatPassword: "",
-            dateOfBirth: "",
-            name: "",
-          }}
-          validationSchema={Yup.object({
-            email: Yup.string()
-              .email("Invalid email adress")
-              .required("Required"),
-            password: Yup.string()
-              .min(8, "Password is too short")
-              .max(30, "Password  is too long")
-              .required("Required"),
-            name: Yup.string().required("Required"),
-            dateOfBirth: Yup.date().required("Required"),
-            repeatPassword: Yup.string()
-              .required("Required")
-              .oneOf([Yup.ref("password")], "Password must match"),
-          })}
-          onSubmit={(values, { setSubmitting }) => {
-            console.log(values);
-          }}
-        >
-          {() => (
-            <Form>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+          {formik => {
+            return <Form>
               <TextInput
                 name="name"
                 type="text"
@@ -88,19 +82,11 @@ const Signup = () => {
                 icon={<FiLock />}
               />
 
-              <TextInput
-                name="repeatpassword"
-                type="password"
-                label="Repeat Password"
-                placeholder="**********"
-                icon={<FiLock />}
-              />
-
               <ButtonGroup>
                 <StyledFormButton type="submit">Signup</StyledFormButton>
               </ButtonGroup>
             </Form>
-          )}
+          }}
         </Formik>
         <ExtraText>
           Already have an account?
@@ -111,4 +97,5 @@ const Signup = () => {
     </div>
   );
 };
+
 export default Signup;

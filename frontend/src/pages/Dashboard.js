@@ -1,7 +1,7 @@
 import {
   StyledTitle,
-  StyledSubtitle,
-  StyledSubTitle,
+  //StyledSubtitle,
+  //StyledSubTitle,
   Avatar,
   StyledButton,
   ButtonGroup,
