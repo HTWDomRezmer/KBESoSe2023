@@ -14,9 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Account {
     @Id
-    private ObjectId _id;
+    private ObjectId id;
     private String email;
     private String name;
     private String dateofBirth;
     private String password;
+
+    public Account(String email, String name, String dateofBirth, String password) {
+        this.email = email;
+        this.name = name;
+        this.dateofBirth = dateofBirth;
+        this.password = password;
+    }
 }
